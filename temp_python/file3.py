@@ -3,8 +3,8 @@
 thing = "This doesn't need anything crazy"
 
 def abc():
-    return thing + " change 2"
+    return thing + " change 3"
 
-def lolz():
-    # deleted lol, added lolz, changed abc
+def lol():
+    # deleted lolz, added lol, changed abc
     return 1
