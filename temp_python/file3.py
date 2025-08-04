@@ -3,7 +3,8 @@
 thing = "This doesn't need anything crazy"
 
 def abc():
-    return thing
+    return thing + " change"
 
-def bcd():
-    return thing + "1"
+def lol():
+    # deleted bcd, added lol, changed abc
+    return 1
