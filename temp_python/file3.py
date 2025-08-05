@@ -2,6 +2,9 @@
 
 thing = "This doesn't need anything crazy"
 
+def unchanged():
+    return "this function won't change"
+
 def abc():
     return thing + " change 8"
 
