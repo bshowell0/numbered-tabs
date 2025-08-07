@@ -9,7 +9,7 @@ def say_hello() -> str:
 
 
 def add_numbers(x: int, y: int) -> int:
-    return x + y
+    return x + 2 * y
 
 
 def deprecated_create_user(*args, **kwargs):
