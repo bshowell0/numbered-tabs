@@ -1,7 +1,7 @@
 import warnings
 
 from .services import create_user
-from .utils import slugify
+from .string_utils import slugify
 
 
 def say_hello() -> str:
@@ -9,7 +9,7 @@ def say_hello() -> str:
 
 
 def add_numbers(x: int, y: int) -> int:
-    return x + y
+    return x * y
 
 
 def deprecated_create_user(*args, **kwargs):

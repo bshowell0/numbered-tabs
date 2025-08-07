@@ -34,3 +34,8 @@ def user_lifetime_value(user_id: int, *, db: InMemoryDB = default_db) -> float:
 
 def orders_count(*, db: InMemoryDB = default_db) -> int:
     return len(list_orders(db))
+
+
+def total_revenue_cents(*, db: InMemoryDB = default_db) -> int:
+    orders = list_orders(db)
+    return sum(calculate_order_total_cents(o, db=db) for o in orders)

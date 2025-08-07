@@ -13,7 +13,7 @@ from .repository import (
     list_users as repo_list_users,
     deactivate_user as repo_deactivate_user,
 )
-from .utils import slugify
+from .string_utils import slugify
 from .validators import require_nonempty, validate_email
 
 
@@ -29,7 +29,7 @@ def get_user(user_id: int, *, db: InMemoryDB = default_db) -> User | None:
     return repo_get_user(db, user_id)
 
 
-def fetch_enabled_users(*, db: InMemoryDB = default_db) -> List[User]:
+def get_active_users(*, db: InMemoryDB = default_db) -> List[User]:
     return [u for u in repo_list_users(db) if u.active]
 
 

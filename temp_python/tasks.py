@@ -2,7 +2,7 @@ from typing import Callable, Dict
 
 from .analytics import average_order_value
 from .repository import InMemoryDB, default_db
-from .services import create_user, fetch_enabled_users
+from .services import create_user, get_active_users
 
 
 def nightly_recompute_metrics(*, db: InMemoryDB = default_db) -> Dict[str, float]:
@@ -13,14 +13,14 @@ def send_welcome_emails(
     send_func: Callable[[str], None], *, db: InMemoryDB = default_db
 ) -> int:
     count = 0
-    for user in fetch_enabled_users(db=db):
+    for user in get_active_users(db=db):
         send_func(user.email)
         count += 1
     return count
 
 
 def seed_example_data(*, db: InMemoryDB = default_db) -> None:
-    if fetch_enabled_users(db=db):
+    if get_active_users(db=db):
         return
     create_user("alice@example.com", "Alice", db=db)
     create_user("bob@example.com", "Bob", db=db)

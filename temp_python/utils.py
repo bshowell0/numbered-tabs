@@ -2,10 +2,6 @@ import time
 from typing import Any, Iterable, Iterator, List
 
 
-def snake_to_camel(name: str) -> str:
-    return "".join(part.capitalize() or "_" for part in name.split("_"))
-
-
 def percent_change(old: float, new: float) -> float:
     if old == 0:
         return float("inf") if new != 0 else 0.0
