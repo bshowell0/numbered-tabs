@@ -6,13 +6,13 @@ def unchanged():
 
 
 def abc():
-    return thing + " change 15"
+    return thing + " change 16"
 
 
-def lol14():
+def lol15():
     # renamed lol9 to lol10
     return 1
 
 
-def hi_there3():
-    return "Hi this is a completely different function"
+def hi_there4():
+    return "New stuff!"
