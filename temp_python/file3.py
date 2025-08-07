@@ -9,7 +9,7 @@ def abc():
     return thing + " change 15"
 
 
-def lol13():
+def lol14():
     # renamed lol9 to lol10
     return 1
 
