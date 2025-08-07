@@ -6,8 +6,12 @@ def unchanged():
     return "this function won't change"
 
 def abc():
-    return thing + " change 11"
+    return thing + " change 12"
 
-def lol9():
-    # deleted lol something, added lol9, changed abc
+def lol10():
+    # renamed lol9 to lol10
     return 1
+
+def hello_there():
+    # added new hello there function
+    return "Hello!!"
