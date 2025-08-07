@@ -1,9 +1,15 @@
 import time
 from typing import Any, Iterable, Iterator, List
-from .time_utils import now_iso
 
 
-def timestamped(text: str) -> str:
+from datetime import datetime
+
+
+def now_iso() -> str:
+    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+
+
+def timestamped_text(text: str) -> str:
     return f"{now_iso()} - {text}"
 
 
