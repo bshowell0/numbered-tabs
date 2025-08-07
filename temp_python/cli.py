@@ -1,6 +1,6 @@
 import argparse
 
-from .services import list_active_users
+from .services import list_enabled_users
 from .tasks import seed_example_data
 
 
@@ -11,7 +11,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.seed:
         seed_example_data()
-    for user in list_active_users():
+    for user in list_enabled_users():
         print(f"{user.id}: {user.name} <{user.email}>")
     return 0
 
