@@ -55,5 +55,9 @@ def safe_int(value: Any, default: int = 0) -> int:
         return default
 
 
-def now_iso() -> str:
-    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+def pad_left(text: str, width: int, fill: str = " ") -> str:
+    if len(fill) != 1:
+        raise ValueError("fill must be a single character")
+    if width <= len(text):
+        return text
+    return (fill * (width - len(text))) + text
