@@ -17,7 +17,7 @@ from .string_utils import slugify
 from .validators import require_nonempty, validate_email
 
 
-def create_user(email: str, name: str, *, db: InMemoryDB = default_db) -> User:
+def create_new_user(email: str, name: str, *, db: InMemoryDB = default_db) -> User:
     require_nonempty(name, "name")
     if not validate_email(email):
         raise ValueError("invalid email")
