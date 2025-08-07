@@ -1,14 +1,28 @@
+import warnings
+
+from .services import create_user
+from .utils import slugify
 
 
-def func1():
+def say_hello() -> str:
     return "Hello!"
 
-def func2():
-    x = 5
-    y = 12
 
+def add_numbers(x: int, y: int) -> int:
     return x + 2 * y
 
-def func3():
-    string = "this function doesn't do anything important"
-    return string + " probably"
+
+def deprecated_create_user(*args, **kwargs):
+    warnings.warn(
+        "deprecated_create_user is deprecated; use services.create_user",
+        DeprecationWarning,
+    )
+    return create_user(*args, **kwargs)
+
+
+def build_user_slug(name: str) -> str:
+    return slugify(name)
+
+
+def noop_message() -> str:
+    return "this function doesn't do anything important probably"

@@ -1,7 +1,13 @@
+from .utils import now_iso
 
 
-def func1():
+def another_func1() -> str:
     return "This is another func1"
 
-def thing1(string):
-    return string + " string"
+
+def append_string(text: str) -> str:
+    return f"{text} string"
+
+
+def timestamped(text: str) -> str:
+    return f"{now_iso()} - {text}"
