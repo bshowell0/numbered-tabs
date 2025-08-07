@@ -32,17 +32,5 @@ def user_lifetime_value(user_id: int, *, db: InMemoryDB = default_db) -> float:
     return cents / 100.0
 
 
-def median_order_value(*, db: InMemoryDB = default_db) -> float:
-    orders = list_orders(db)
-    if not orders:
-        return 0.0
-    totals = sorted(calculate_order_total_cents(o, db=db) for o in orders)
-    n = len(totals)
-    mid = n // 2
-    if n % 2 == 1:
-        return totals[mid] / 100.0
-    return (totals[mid - 1] + totals[mid]) / 200.0
-
-
 def orders_count(*, db: InMemoryDB = default_db) -> int:
     return len(list_orders(db))

@@ -1,5 +1,17 @@
+import re
 import time
+from datetime import datetime
 from typing import Any, Iterable, Iterator, List
+
+
+def slugify(text: str) -> str:
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-")
+
+
+def snake_to_camel(name: str) -> str:
+    return "".join(part.capitalize() or "_" for part in name.split("_"))
 
 
 def percent_change(old: float, new: float) -> float:
