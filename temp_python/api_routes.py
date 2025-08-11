@@ -1,7 +1,6 @@
-from typing import Dict, List, Optional, Any
-import json
+# Flask-style API routes (note: flask not actually installed, this is for demo)
+# from flask import Flask, request, jsonify
 
-from .models import User, Product, Order
 from .services import (
     create_new_user,
     get_user,
@@ -13,61 +12,78 @@ from .services import (
     calculate_order_total_cents,
 )
 from .analytics import average_order_value, user_lifetime_value, total_revenue_cents
-from .repository import default_db, get_product, list_orders
+from .repository import default_db, get_product, list_orders as get_all_orders
 from .validators import validate_email
 
 
-# Mock request/response objects for realistic API structure
+# Mock Flask objects for demonstration
+class MockFlask:
+    def route(self, path, methods=None):
+        def decorator(func):
+            func._route = (path, methods)
+            return func
+
+        return decorator
+
+    def run(self, debug=False):
+        pass
+
+
 class MockRequest:
-    def __init__(self, json_data: Dict[str, Any], args: Dict[str, str] = None):
-        self.json = json_data
-        self.args = args or {}
+    def get_json(self):
+        return {}
+
+    @property
+    def args(self):
+        return {}
 
 
-class MockResponse:
-    def __init__(self, data: Any, status_code: int = 200):
-        self.data = data
-        self.status_code = status_code
+def jsonify(data):
+    return data, 200
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {"data": self.data, "status": self.status_code}
+
+# Initialize mock app
+app = MockFlask()
+request = MockRequest()
 
 
 # User endpoints
 
 
-def create_user_endpoint(request: MockRequest) -> MockResponse:
-    """POST /api/users"""
+@app.route("/api/users", methods=["POST"])
+def create_user():
+    """Create a new user"""
     try:
-        email = request.json.get("email")
-        name = request.json.get("name")
+        data = request.get_json()
+        email = data.get("email")
+        name = data.get("name")
 
         if not email or not validate_email(email):
-            return MockResponse({"error": "Invalid email"}, 400)
+            return jsonify({"error": "Invalid email"}), 400
         if not name:
-            return MockResponse({"error": "Name is required"}, 400)
+            return jsonify({"error": "Name is required"}), 400
 
         user = create_new_user(email, name)
-        return MockResponse(
+        return jsonify(
             {
                 "id": user.id,
                 "email": user.email,
                 "name": user.name,
                 "active": user.active,
-            },
-            201,
-        )
+            }
+        ), 201
     except Exception as e:
-        return MockResponse({"error": str(e)}, 500)
+        return jsonify({"error": str(e)}), 500
 
 
-def get_user_endpoint(user_id: int) -> MockResponse:
-    """GET /api/users/{user_id}"""
+@app.route("/api/users/<int:user_id>", methods=["GET"])
+def get_user_by_id(user_id: int):
+    """Get user by ID"""
     user = get_user(user_id)
     if not user:
-        return MockResponse({"error": "User not found"}, 404)
+        return jsonify({"error": "User not found"}), 404
 
-    return MockResponse(
+    return jsonify(
         {
             "id": user.id,
             "email": user.email,
@@ -78,8 +94,9 @@ def get_user_endpoint(user_id: int) -> MockResponse:
     )
 
 
-def list_users_endpoint(request: MockRequest) -> MockResponse:
-    """GET /api/users"""
+@app.route("/api/users", methods=["GET"])
+def list_users():
+    """List users with optional search"""
     search_query = request.args.get("q")
 
     if search_query:
@@ -87,7 +104,7 @@ def list_users_endpoint(request: MockRequest) -> MockResponse:
     else:
         users = get_active_users()
 
-    return MockResponse(
+    return jsonify(
         [
             {
                 "id": user.id,
@@ -100,49 +117,52 @@ def list_users_endpoint(request: MockRequest) -> MockResponse:
     )
 
 
-def deactivate_user_endpoint(user_id: int) -> MockResponse:
-    """DELETE /api/users/{user_id}"""
+@app.route("/api/users/<int:user_id>", methods=["DELETE"])
+def deactivate_user_by_id(user_id: int):
+    """Deactivate a user"""
     success = deactivate_user(user_id)
     if not success:
-        return MockResponse({"error": "User not found"}, 404)
+        return jsonify({"error": "User not found"}), 404
 
-    return MockResponse({"message": "User deactivated"})
+    return jsonify({"message": "User deactivated"})
 
 
 # Product endpoints
 
 
-def create_product_endpoint(request: MockRequest) -> MockResponse:
-    """POST /api/products"""
+@app.route("/api/products", methods=["POST"])
+def create_product():
+    """Create a new product"""
     try:
-        name = request.json.get("name")
-        price = request.json.get("price_cents")
+        data = request.get_json()
+        name = data.get("name")
+        price = data.get("price_cents")
 
         if not name:
-            return MockResponse({"error": "Product name is required"}, 400)
+            return jsonify({"error": "Product name is required"}), 400
         if not isinstance(price, int) or price <= 0:
-            return MockResponse({"error": "Valid price is required"}, 400)
+            return jsonify({"error": "Valid price is required"}), 400
 
         product = add_sample_product(name, price)
-        return MockResponse(
+        return jsonify(
             {
                 "id": product.id,
                 "name": product.name,
                 "price_cents": product.price_cents,
-            },
-            201,
-        )
+            }
+        ), 201
     except Exception as e:
-        return MockResponse({"error": str(e)}, 500)
+        return jsonify({"error": str(e)}), 500
 
 
-def get_product_endpoint(product_id: int) -> MockResponse:
-    """GET /api/products/{product_id}"""
+@app.route("/api/products/<int:product_id>", methods=["GET"])
+def get_product_by_id(product_id: int):
+    """Get product by ID"""
     product = get_product(default_db, product_id)
     if not product:
-        return MockResponse({"error": "Product not found"}, 404)
+        return jsonify({"error": "Product not found"}), 404
 
-    return MockResponse(
+    return jsonify(
         {
             "id": product.id,
             "name": product.name,
@@ -155,24 +175,26 @@ def get_product_endpoint(product_id: int) -> MockResponse:
 # Order endpoints
 
 
-def create_order_endpoint(request: MockRequest) -> MockResponse:
-    """POST /api/orders"""
+@app.route("/api/orders", methods=["POST"])
+def create_order():
+    """Create a new order"""
     try:
-        user_id = request.json.get("user_id")
-        product_ids = request.json.get("product_ids", [])
-        notes = request.json.get("notes", "")
+        data = request.get_json()
+        user_id = data.get("user_id")
+        product_ids = data.get("product_ids", [])
+        notes = data.get("notes", "")
 
         if not user_id:
-            return MockResponse({"error": "User ID is required"}, 400)
+            return jsonify({"error": "User ID is required"}), 400
         if not product_ids:
-            return MockResponse({"error": "At least one product is required"}, 400)
+            return jsonify({"error": "At least one product is required"}), 400
 
         order = place_order(user_id, product_ids)
         order.notes = notes
 
         total_cents = calculate_order_total_cents(order)
 
-        return MockResponse(
+        return jsonify(
             {
                 "id": order.id,
                 "user_id": order.user_id,
@@ -180,28 +202,28 @@ def create_order_endpoint(request: MockRequest) -> MockResponse:
                 "notes": order.notes,
                 "total_cents": total_cents,
                 "total_dollars": total_cents / 100.0,
-            },
-            201,
-        )
+            }
+        ), 201
     except ValueError as e:
-        return MockResponse({"error": str(e)}, 400)
+        return jsonify({"error": str(e)}), 400
     except Exception as e:
-        return MockResponse({"error": str(e)}, 500)
+        return jsonify({"error": str(e)}), 500
 
 
-def list_orders_endpoint(request: MockRequest) -> MockResponse:
-    """GET /api/orders"""
+@app.route("/api/orders", methods=["GET"])
+def list_orders():
+    """List orders with optional user filter"""
     user_id_filter = request.args.get("user_id")
-    orders = list_orders(default_db)
+    orders = get_all_orders(default_db)
 
     if user_id_filter:
         try:
             user_id = int(user_id_filter)
             orders = [o for o in orders if o.user_id == user_id]
         except ValueError:
-            return MockResponse({"error": "Invalid user_id parameter"}, 400)
+            return jsonify({"error": "Invalid user_id parameter"}), 400
 
-    return MockResponse(
+    return jsonify(
         [
             {
                 "id": order.id,
@@ -218,29 +240,31 @@ def list_orders_endpoint(request: MockRequest) -> MockResponse:
 # Analytics endpoints
 
 
-def analytics_overview_endpoint() -> MockResponse:
-    """GET /api/analytics/overview"""
-    return MockResponse(
+@app.route("/api/analytics/overview", methods=["GET"])
+def analytics_overview():
+    """Get analytics overview"""
+    return jsonify(
         {
             "average_order_value": average_order_value(),
             "total_revenue_cents": total_revenue_cents(),
             "total_revenue_dollars": total_revenue_cents() / 100.0,
             "active_users_count": len(get_active_users()),
-            "total_orders_count": len(list_orders(default_db)),
+            "total_orders_count": len(get_all_orders(default_db)),
         }
     )
 
 
-def user_analytics_endpoint(user_id: int) -> MockResponse:
-    """GET /api/analytics/users/{user_id}"""
+@app.route("/api/analytics/users/<int:user_id>", methods=["GET"])
+def user_analytics(user_id: int):
+    """Get analytics for a specific user"""
     user = get_user(user_id)
     if not user:
-        return MockResponse({"error": "User not found"}, 404)
+        return jsonify({"error": "User not found"}), 404
 
     ltv = user_lifetime_value(user_id)
-    user_orders = [o for o in list_orders(default_db) if o.user_id == user_id]
+    user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
-    return MockResponse(
+    return jsonify(
         {
             "user_id": user_id,
             "lifetime_value": ltv,
@@ -253,24 +277,13 @@ def user_analytics_endpoint(user_id: int) -> MockResponse:
 # Health check
 
 
-def health_check_endpoint() -> MockResponse:
-    """GET /api/health"""
-    return MockResponse(
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    """Health check endpoint"""
+    return jsonify(
         {"status": "healthy", "service": "temp_python_api", "version": "0.1.0"}
     )
 
 
-# Route mapping (for reference)
-ROUTES = {
-    "POST /api/users": create_user_endpoint,
-    "GET /api/users/{id}": get_user_endpoint,
-    "GET /api/users": list_users_endpoint,
-    "DELETE /api/users/{id}": deactivate_user_endpoint,
-    "POST /api/products": create_product_endpoint,
-    "GET /api/products/{id}": get_product_endpoint,
-    "POST /api/orders": create_order_endpoint,
-    "GET /api/orders": list_orders_endpoint,
-    "GET /api/analytics/overview": analytics_overview_endpoint,
-    "GET /api/analytics/users/{id}": user_analytics_endpoint,
-    "GET /api/health": health_check_endpoint,
-}
+if __name__ == "__main__":
+    app.run(debug=True)
