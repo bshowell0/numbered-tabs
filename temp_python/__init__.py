@@ -2,11 +2,11 @@
 Lightweight sample package for refactoring practice.
 """
 
-from .services import create_user, place_order, get_active_users
+from .services import create_new_user, place_order, get_active_users
 from .analytics import average_order_value
 
 __all__ = [
-    "create_user",
+    "create_new_user",
     "place_order",
     "get_active_users",
     "average_order_value",

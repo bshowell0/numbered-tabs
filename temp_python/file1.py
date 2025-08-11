@@ -1,6 +1,6 @@
 import warnings
 
-from .services import create_user
+from .services import create_new_user
 from .string_utils import slugify
 
 
@@ -17,7 +17,7 @@ def deprecated_create_user(*args, **kwargs):
         "deprecated_create_user is deprecated; use services.create_user",
         DeprecationWarning,
     )
-    return create_user(*args, **kwargs)
+    return create_new_user(*args, **kwargs)
 
 
 def build_user_slug(name: str) -> str:
