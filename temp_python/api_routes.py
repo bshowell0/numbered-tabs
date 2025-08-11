@@ -131,28 +131,9 @@ def deactivate_user_by_id(user_id: int):
 
 
 @app.route("/api/products", methods=["POST"])
-def create_product():
-    """Create a new product"""
-    try:
-        data = request.get_json()
-        name = data.get("name")
-        price = data.get("price_cents")
-
-        if not name:
-            return jsonify({"error": "Product name is required"}), 400
-        if not isinstance(price, int) or price <= 0:
-            return jsonify({"error": "Valid price is required"}), 400
-
-        product = add_sample_product(name, price)
-        return jsonify(
-            {
-                "id": product.id,
-                "name": product.name,
-                "price_cents": product.price_cents,
-            }
-        ), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+def break_everything():
+    """Don't create a new product"""
+    return jsonify({"error": "This sucks :("}), 500
 
 
 @app.route("/api/products/<int:product_id>", methods=["GET"])
@@ -240,7 +221,7 @@ def list_orders():
 # Analytics endpoints
 
 
-@app.route("/api/analytics/overview", methods=["GET"])
+@app.route("/api/analytics/overviews", methods=["GET"])
 def analytics_overview():
     """Get analytics overview"""
     return jsonify(
