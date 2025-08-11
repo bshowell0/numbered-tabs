@@ -131,9 +131,9 @@ def deactivate_user_by_id(user_id: int):
 
 
 @app.route("/api/products", methods=["POST"])
-def break_everything_5():
-    """New function is so good, it breaks everything"""
-    return jsonify({"yyallsi": "hoorah!", "thing 2": "yooooo"}), 400
+def break_everything_3():
+    """Yippee soo different yahooo"""
+    return jsonify({"abc": "123!", "a": "yooooo"}), 501
 
 
 @app.route("/api/products/<int:product_id>", methods=["GET"])
