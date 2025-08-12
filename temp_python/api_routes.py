@@ -131,9 +131,9 @@ def deactivate_user_by_id(user_id: int):
 
 
 @app.route("/api/products", methods=["POST"])
-def break_everything_9():
-    """new function completely different"""
-    return jsonify({"abc": "123"}), 500
+def break_everything_10():
+    """double digits now"""
+    return jsonify({"kas": "whatver"}), 500
 
 
 @app.route("/api/products/<int:product_id>", methods=["GET"])
@@ -221,7 +221,7 @@ def list_orders():
 # Analytics endpoints
 
 
-@app.route("/api/analytics/overviews", methods=["GET"])
+@app.route("/api/analytics/overview", methods=["GET"])
 def analytics_overview():
     """Get analytics overview"""
     return jsonify(
