@@ -6,10 +6,10 @@ def unchanged():
 
 
 def abc():
-    return thing + " change 16"
+    return thing + " change 17"
 
 
-def lol15():
+def lol16():
     # renamed lol9 to lol10
     return 1
 

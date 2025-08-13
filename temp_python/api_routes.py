@@ -130,6 +130,12 @@ def deactivate_user_by_id(user_id: int):
 # Product endpoints
 
 
+@app.route("/api/products", methods=["POST"])
+def break_everything_13():
+    """im back baby"""
+    return jsonify({"abs": "breaks"}), 400
+
+
 @app.route("/api/products/<int:product_id>", methods=["GET"])
 def get_product_by_id(product_id: int):
     """Get product by ID"""
