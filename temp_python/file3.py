@@ -16,3 +16,8 @@ def lol15():
 
 def hi_there4():
     return "New stuff!"
+
+
+def new_function_1():
+    val = "Yes: " + hi_there4()
+    return val + " Cool!"
