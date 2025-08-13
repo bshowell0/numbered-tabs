@@ -9,10 +9,18 @@ def abc():
     return thing + " change 17"
 
 
-def lol16():
+def lol17():
     # renamed lol9 to lol10
     return 1
 
 
 def hi_there4():
     return "New stuff!"
+
+
+def hi_there5():
+    return hi_there4() + " Cool!"
+
+
+def new_function_2():
+    return "just new stuff no edges"
