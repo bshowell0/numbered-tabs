@@ -6,7 +6,7 @@ def unchanged():
 
 
 def abc():
-    return thing + " change 17"
+    return thing + " change 18"
 
 
 def lol17():
@@ -16,10 +16,6 @@ def lol17():
 
 def hi_there4():
     return "New stuff!"
-
-
-def hi_there5():
-    return hi_there4() + " Cool!"
 
 
 def new_function_2():
