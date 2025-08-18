@@ -180,7 +180,7 @@ def create_order():
             "id": order.id,
             "user_id": order.user_id,
             "product_ids": order.product_ids,
-            "notes": order.notes,
+            "notes": notes,
             "total_cents": total_cents,
             "total_dollars": total_cents / 100.0,
         }
