@@ -176,16 +176,16 @@ def create_order():
 
         total_cents = calculate_order_total_cents(order)
 
-        return jsonify(
-            {
-                "id": order.id,
-                "user_id": order.user_id,
-                "product_ids": order.product_ids,
-                "notes": order.notes,
-                "total_cents": total_cents,
-                "total_dollars": total_cents / 100.0,
-            }
-        ), 201
+        return_object = {
+            "id": order.id,
+            "user_id": order.user_id,
+            "product_ids": order.product_ids,
+            "notes": order.notes,
+            "total_cents": total_cents,
+            "total_dollars": total_cents / 100.0,
+        }
+
+        return jsonify(return_object), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
