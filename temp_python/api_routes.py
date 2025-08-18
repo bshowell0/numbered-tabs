@@ -104,17 +104,18 @@ def list_users():
     else:
         users = get_active_users()
 
-    return jsonify(
-        [
+    user_list = []
+    for user in users:
+        user_list.append(
             {
                 "id": user.id,
                 "email": user.email,
                 "name": user.name,
                 "active": user.active,
             }
-            for user in users
-        ]
-    )
+        )
+
+    return jsonify(user_list)
 
 
 @app.route("/api/users/<int:user_id>", methods=["DELETE"])
