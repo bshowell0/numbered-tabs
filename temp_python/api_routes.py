@@ -183,6 +183,7 @@ def create_order():
             "notes": notes,
             "total_cents": total_cents,
             "total_dollars": total_cents / 100.0,
+            "number": 5
         }
 
         return jsonify(return_object), 201
@@ -271,7 +272,7 @@ def health_check():
         {
             "status": "quite unhealthy",
             "service": "temp_python_api",
-            "version": "2.69.420",
+            "version": "5.69.420",
         }
     )
 
