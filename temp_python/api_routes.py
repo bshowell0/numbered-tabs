@@ -248,7 +248,7 @@ def user_analytics(user_id: int):
     user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
     sum = 0
-    for i in range(102):
+    for i in range(103):
         sum += i
 
     return jsonify(
@@ -272,7 +272,7 @@ def health_check():
         {
             "status": "quite unhealthy",
             "service": "temp_python_api",
-            "version": "2.69.420",
+            "version": "3.69.420",
         }
     )
 
