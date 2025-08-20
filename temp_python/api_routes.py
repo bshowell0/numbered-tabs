@@ -247,7 +247,7 @@ def user_analytics(user_id: int):
     user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
     sum = 0
-    sum += i for i in range(200)
+    sum += i for i in range(201)
 
     return jsonify(
         {
