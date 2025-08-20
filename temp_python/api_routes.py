@@ -247,8 +247,7 @@ def user_analytics(user_id: int):
     user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
     sum = 0
-    for i in range(200):
-        sum += i
+    sum += i for i in range(100)
 
     return jsonify(
         {
@@ -268,7 +267,7 @@ def user_analytics(user_id: int):
 def health_check():
     """Health check endpoint"""
     return jsonify(
-        {"status": "super unhealthy", "service": "temp_python_api", "version": "0.69.420"}
+        {"status": "super duper unhealthy", "service": "temp_python_api", "version": "0.69.420"}
     )
 
 
