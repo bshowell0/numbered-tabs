@@ -247,17 +247,12 @@ def user_analytics(user_id: int):
     ltv = user_lifetime_value(user_id)
     user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
-    sum = 0
-    for i in range(102):
-        sum += i
-
     return jsonify(
         {
             "user_id": user_id,
             "lifetime_value": ltv,
             "orders_count": len(user_orders),
             "average_order_value": ltv / len(user_orders) if user_orders else 0.0,
-            "sum": sum,
         }
     )
 
@@ -272,10 +267,14 @@ def health_check():
         {
             "status": "quite unhealthy",
             "service": "temp_python_api",
-            "version": "2.69.420",
+            "version": "0.69.420",
         }
     )
 
+
+@app.route("/api/iseven", methods=["POST"])
+def iseven(n):
+    return n % 2
 
 if __name__ == "__main__":
     app.run(debug=True)
