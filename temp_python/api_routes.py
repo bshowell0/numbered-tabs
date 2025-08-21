@@ -271,10 +271,9 @@ def health_check():
         }
     )
 
-
-@app.route("/api/isodd", methods=["POST"])
-def isodd(n):
-    return n % 2
+@app.route("/api/increment", methods=["POST"])
+def increment(n):
+    return n+1
 
 if __name__ == "__main__":
     app.run(debug=True)
