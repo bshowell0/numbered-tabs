@@ -267,13 +267,13 @@ def health_check():
         {
             "status": "quite unhealthy",
             "service": "temp_python_api",
-            "version": "0.69.420",
+            "version": "1.69.420",
         }
     )
 
 
-@app.route("/api/iseven", methods=["POST"])
-def iseven(n):
+@app.route("/api/isodd", methods=["POST"])
+def isodd(n):
     return n % 2
 
 if __name__ == "__main__":
