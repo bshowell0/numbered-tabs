@@ -271,7 +271,7 @@ def health_check():
         {
             "status": "quite unhealthy",
             "service": "temp_python_api",
-            "version": "2.69.420",
+            "version": "3.69.420",
         }
     )
 
