@@ -14,6 +14,7 @@ from .services import (
 from .analytics import average_order_value, user_lifetime_value, total_revenue_cents
 from .repository import default_db, get_product, list_orders as get_all_orders
 from .validators import validate_email
+from .file3 import lol17
 
 
 # Mock Flask objects for demonstration
@@ -48,6 +49,13 @@ request = MockRequest()
 
 
 # User endpoints
+
+
+@app.route("/api/borrow", methods=["POST"])
+def borrow():
+    """Borrow money from the bank"""
+    data = lol17()
+    return jsonify({"message": f"Borrowed money: {data}"}), 200
 
 
 @app.route("/api/users", methods=["POST"])
@@ -183,7 +191,7 @@ def create_order():
             "notes": notes,
             "total_cents": total_cents,
             "total_dollars": total_cents / 100.0,
-            "number": 5
+            "number": 5,
         }
 
         return jsonify(return_object), 201
@@ -248,15 +256,16 @@ def user_analytics(user_id: int):
     user_orders = [o for o in get_all_orders(default_db) if o.user_id == user_id]
 
     sum = 0
-    sum += i for i in range(100)
-    
+    for i in range(100):
+        sum += i
+
     return jsonify(
         {
             "user_id": user_id,
             "lifetime_value": ltv,
             "orders_count": len(user_orders),
             "average_order_value": ltv / len(user_orders) if user_orders else 0.0,
-            "sum": sum
+            "sum": sum,
         }
     )
 
@@ -275,9 +284,11 @@ def health_check():
         }
     )
 
+
 @app.route("/api/iseven", methods=["POST"])
 def iseven(n):
     return n % 2
+
 
 if __name__ == "__main__":
     app.run(debug=True)
