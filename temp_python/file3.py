@@ -1,3 +1,6 @@
+import random
+
+
 thing = "This doesn't need anything crazy"
 
 
@@ -10,8 +13,8 @@ def abc():
 
 
 def lol17():
-    # renamed lol9 to lol10
-    return 1
+    # math time
+    return random.randint(1, 100)
 
 
 def hi_there4():
