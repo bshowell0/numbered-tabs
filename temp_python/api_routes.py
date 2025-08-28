@@ -53,7 +53,7 @@ request = MockRequest()
 
 @app.route("/api/borrow", methods=["POST"])
 def borrow():
-    """Borrow money from the store"""
+    """Borrow money from the bank"""
     data = lol17()
     return jsonify({"message": f"Borrowed money: {data}"}), 200
 
