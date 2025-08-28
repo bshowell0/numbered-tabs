@@ -14,7 +14,7 @@ def abc():
 
 def lol17():
     # math time
-    return random.randint(1, 100) * 100
+    return random.randint(1, 100) * 100 + 5
 
 
 def hi_there4():
