@@ -61,6 +61,15 @@ def print_hello_and_return_500():
     return jsonify({"message": "Hello, world!"}), 500
 
 
+@app.route("/api/bean", methods=["POST"])
+def bean():
+    return jsonify({"message": "Bean!"}), 200
+
+
+def bean_and_return_500():
+    return jsonify({"message": "Bean!"}), 500
+
+
 @app.route("/api/borrow", methods=["POST"])
 def borrow():
     """Borrow money from the bank"""
