@@ -51,6 +51,15 @@ request = MockRequest()
 # User endpoints
 
 
+@app.route("/api/test", methods=["GET"])
+def test():
+    return jsonify({"message": "Hello, world!"}), 200
+
+
+def test_and_return_500():
+    return jsonify({"message": "Hello, world!"}), 500
+
+
 @app.route("/api/borrow", methods=["POST"])
 def borrow():
     """Borrow money from the bank"""
